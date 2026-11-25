@@ -21,6 +21,7 @@ def cflDt(h, dF, safety=0.05):
 
 
 def laplacianNeumann(Z, h):
+
     lap = np.zeros_like(Z)
 
     lap[1:-1] = (Z[:-2] + Z[2:] - 2.0 * Z[1:-1]) / (h * h)
@@ -145,8 +146,8 @@ class explicitNeuralCrest1D:
         l = np.zeros_like(x)
         f = np.zeros_like(x)
 
-        xLower = 65.0
-        xUpper = 870.0
+        xLower = 6.50
+        xUpper = 87.0
         delta  = 5.0
 
         f[:] = 0.5 * self.f0 * (
@@ -154,7 +155,7 @@ class explicitNeuralCrest1D:
             - np.tanh((x - xUpper) / delta)
         )
 
-        x0 = 895.0
+        x0 = 89.5
         sigma = 12.0
 
         base = np.exp(-0.5 * ((x - x0) / sigma) ** 2)
@@ -214,6 +215,8 @@ class explicitNeuralCrest1D:
         if self.clipNonneg:
             np.maximum(self.f, 0.0, out=self.f)
 
+        # print(time.perf_counter())
+
 
     def simulateWithProgress(self, yFile, tFile):
         tGrid = self.tEval
@@ -259,17 +262,17 @@ if __name__ == "__main__":
     vL = 1.0
     dF = 10.0
 
-    muFL = int(sys.argv[1])
-    muFF = int(sys.argv[2])
+    muFL = 1
+    muFF = 1
 
-    xiFL = int(sys.argv[3])
-    xiFF = int(sys.argv[4])
+    xiFL = 1
+    xiFF = 1
 
     K = 1.0
-    L = 2000.0
-    meshPoints = 10000
+    L = 200.0
+    meshPoints = 1000
 
-    timeSpan = (0.0, 12 * 60.0)
+    timeSpan = (0.0, 1 * 60.0)
     timeEvaluations = np.linspace(timeSpan[0], timeSpan[1], 7)
 
     sim = explicitNeuralCrest1D(
